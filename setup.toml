@@ -1,0 +1,19 @@
+[general]
+preferences = "teilnehmerinfos.csv"
+results = "results.csv"
+stats = "stats.txt"
+
+[workshops]
+columns = [18, 19, 20]
+capacities = "capacities_workshop.csv"
+cost.first = -10
+cost.second = 0
+cost.third = 1
+
+
+[excursions]
+columns = [15, 16, 17]
+capacities = "capacities_excursion.csv"
+cost.first = -10
+cost.second = 0
+cost.third = 1
