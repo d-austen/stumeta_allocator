@@ -31,7 +31,16 @@ with open(setup['general']['preferences'], 'r') as f:
     reader = csv.reader(f)
     next(reader)
     for row in reader:
-        name = row[3] + row[4]
+        name = f'{row[3]} {row[4][:2]}.'
+        #name = f'{row[3]}'
+        count = 2
+        while True:
+            if name in excursions:
+                logging.warning(f'multiple persons with the name {name} detected. Adding one more letter to the surname abbreviation.')
+                count += 1
+                name = f'{row[3]} {row[4][:count]}.'
+            else:
+                break
         excursions[name] = [row[e] for e in setup['excursions']['columns']]
         workshops[name] = [row[w] for w in setup['workshops']['columns']]
 
