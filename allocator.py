@@ -32,7 +32,6 @@ with open(setup['general']['preferences'], 'r') as f:
     next(reader)
     for row in reader:
         name = f'{row[3]} {row[4][:2]}.'
-        #name = f'{row[3]}'
         count = 2
         while True:
             if name in excursions:
