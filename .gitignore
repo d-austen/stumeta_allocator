@@ -1,6 +1,6 @@
 *
 !.gitignore
-!README.md
+!README*
 !*.py
 !*.toml
 !example/
