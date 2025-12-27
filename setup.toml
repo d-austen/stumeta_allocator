@@ -5,18 +5,19 @@ column.surname = 2
 column.city = 4 
 results = "output/results.csv" #here are the results stored in a distributable format
 stats = "output/stats.txt" #statistics of the run
+lowalloc_threshold = 10 #warn if workshop/excursion is below and give hints to fix
 
 [workshops]
 columns = [8, 9, 10] #columns matching the first, second and third choice in the preferences file
 capacities = "example/capacities_workshop_example.csv" #the file with max number of seats
 cost.first = 0
-cost.second = 5
-cost.third = 10
+cost.second = 10
+cost.third = 50
 
 
 [excursions]
 columns = [5, 6, 7] #columns matching the first, second and third choice in the preferences file
 capacities = "example/capacities_excursion_example.csv" #the file with max number of seats
 cost.first = 0
-cost.second = 5
-cost.third = 10
+cost.second = 10
+cost.third = 50

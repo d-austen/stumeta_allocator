@@ -199,3 +199,54 @@ with open(stats_file, 'w') as f:
     print(f'excursion: {Counter(choices_ex)[1]}x first {Counter(choices_ex)[2]}x second {Counter(choices_ex)[3]}x third',file=f)
     print(f'workshop: {Counter(choices_ws)[1]}x first {Counter(choices_ws)[2]}x second {Counter(choices_ws)[3]}x third',file=f)
 
+wsm_list = []
+for ws,n in Counter(list_ws).items():
+    if n < setup['general']['lowalloc_threshold']:
+        wsm_list.append((n,ws))
+for num,wsm in wsm_list:
+    nlist = []
+    for n,i in workshops.items():
+        if wsm in i:
+            nlist.append(n)
+    if not len(nlist) > num:
+        logger.warning(f"{wsm} has <{setup['general']['lowalloc_threshold']} participants in the current allocation. However, there is no way to increase that because everone who has {wsm} in their choices already got allocated to {wsm}")
+        sys.exit(0)
+    logger.warning(f"{wsm} has <{setup['general']['lowalloc_threshold']} participants in the current allocation. Some people who have {wsm} as one of their choices did not get allocated to {wsm}. Instead, they got allocted to the following workshops. You can increase the number of participants in {wsm} by reducing the maximum capacity in {setup['workshops']['capacities']}. ")
+
+    wlist = []
+    for n in rows:
+        if n['name'] in nlist:
+            wlist.append(n['workshop'])
+    for i in range(wlist.count(wsm)):
+        wlist.remove(wsm)
+
+    c = dict(sorted(Counter(wlist).items(), key=lambda item: item[1], reverse=True))
+    for i,j in c.items():
+        print(f"{j}x {i}")
+
+exm_list = []
+for ex,n in Counter(list_ex).items():
+    if n < setup['general']['lowalloc_threshold']:
+        exm_list.append((n,ex))
+for num,exm in exm_list:
+    print('')
+    nlist = []
+    for n,i in excursions.items():
+        if exm in i:
+            nlist.append(n)
+    if not len(nlist) > num:
+        logger.warning(f"{exm} has <{setup['general']['lowalloc_threshold']} participants in the current allocation. However, there is no way to increase that because everone who has {exm} in their choices already got allocated to {exm}")
+        sys.exit(0)
+    logger.warning(f"{exm} has <{setup['general']['lowalloc_threshold']} participants in the current allocation. Some people who have {exm} as one of their choices did not get allocated to {exm}. Instead, they got allocted to the following excursions. You can increase the number of participants in {exm} by reducing the maximum capacity in {setup['excursions']['capacities']}. ")
+
+    exlist = []
+    for n in rows:
+        if n['name'] in nlist:
+            exlist.append(n['excursion'])
+    for i in range(exlist.count(exm)):
+        exlist.remove(exm)
+
+    c = dict(sorted(Counter(exlist).items(), key=lambda item: item[1], reverse=True))
+    print('')
+    for i,j in c.items():
+        print(f"{j}x {i}")
