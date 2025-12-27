@@ -9,14 +9,14 @@ stats = "output/stats.txt" #statistics of the run
 [workshops]
 columns = [8, 9, 10] #columns matching the first, second and third choice in the preferences file
 capacities = "example/capacities_workshop_example.csv" #the file with max number of seats
-cost.first = -10
-cost.second = 0
-cost.third = 1
+cost.first = 0
+cost.second = 5
+cost.third = 10
 
 
 [excursions]
 columns = [5, 6, 7] #columns matching the first, second and third choice in the preferences file
 capacities = "example/capacities_excursion_example.csv" #the file with max number of seats
-cost.first = -10
-cost.second = 0
-cost.third = 1
+cost.first = 0
+cost.second = 5
+cost.third = 10

@@ -4,11 +4,15 @@
 # dependencies = [
 #     "networkx>=3.6.1",
 # ]
+# [tool.uv]
+# exclude-newer = "2025-12-27T00:00:00Z"
 # ///
 '''
 Author: Dominik Austen
-Date: 24.12.2025
+Date: 27.12.2025
 Description:
+    Allocates participants of the StuMeTa to workshops and 
+    excursions based on their preferences
 '''
 import csv
 import datetime
@@ -64,12 +68,14 @@ excursion_capacities = {}
 with open(Path(setup['excursions']['capacities']), 'r') as f:
     reader = csv.reader(f)
     for row in reader:
-        excursion_capacities[row[0]] = int(row[1])
+        if row:
+            excursion_capacities[row[0]] = int(row[1])
 workshop_capacities = {}
 with open(Path(setup['workshops']['capacities']), 'r') as f:
     reader = csv.reader(f)
     for row in reader:
-        workshop_capacities[row[0]] = int(row[1])
+        if row:
+            workshop_capacities[row[0]] = int(row[1])
 
 #get the costs
 workshop_costs = [setup['workshops']['cost'][n] for n in ['first','second','third']]
