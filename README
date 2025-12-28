@@ -7,7 +7,7 @@ Jeder erfüllten Wahl (1. Wahl, 2. Wahl, etc.) wird am Anfang ein "Kostenfaktor"
 Dann werden für jede Zuordnungskombination die "Gesamtkosten" berechnet und die Kombination mit den geringsten "Gesamtkosten" wird ausgegeben. 
 
 Die Ausgabe ist eine CSV-Datei (results.csv), die den Namen und den Zugeordneten Workshop/Exkursion enthält. 
-Die Datei kann dann an die Teilnehmenden weitergegeben werden (bzw. vorher im Tabellenkalkulationsprogramm aufbereitet werden). Der Name besteht aus dem Vornamen, der Stadt und (aus Datenschutzgründen) dem ersten Buchstaben des Nachnamen. Bei gleicher Stadt, gleichem Vornamen und gleichen Anfangsbuchstaben des Nachnamen werden weitere Buchstaben angehängt.
+Die Datei kann dann an die Teilnehmenden weitergegeben werden (bzw. vorher im Tabellenkalkulationsprogramm aufbereitet werden). Der "Name" besteht aus dem Vornamen, der Stadt und (aus Datenschutzgründen) dem ersten Buchstaben des Nachnamen. Bei gleicher Stadt, gleichem Vornamen und gleichen Anfangsbuchstaben des Nachnamen werden weitere Buchstaben angehängt.
 
 Zudem wird eine Datei mit Statistiken (stats.txt) erzeugt, die angiebt wie häufig jeder Workshop/Exkursion zugeordnet wurde welche Wahl (1. Wahl, 2. Wahl, etc.) wie häufig erfüllt wurde.
 
@@ -25,8 +25,8 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 Windows:
 powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 
-### Teilnehmerliste mit Präferenzen und Kapazitätsdateien
-Als Input werden die Teilnehmerliste (mit Vorname, Nachname, Stadt und Präferenzen für Workshops und Exkursionen) im CSV-Format (z.B. der Output der Lotterie) und Kapazitäts-Dateien im CSV-Format, die die maximale Anzahl an Plätzen der Workshops/Exkursionen enthält, benötigt. 
+### Teilnehmendenliste mit Präferenzen und Kapazitätsdateien
+Als Input werden die Teilnehmendenliste (mit Vorname, Nachname, Stadt und Präferenzen für Workshops und Exkursionen) im CSV-Format (z.B. der Output der Lotterie) und Kapazitäts-Dateien im CSV-Format, die die maximale Anzahl an Plätzen der Workshops/Exkursionen enthält, benötigt. 
 
 Eine Zeile in der Kapazitätdatei für Workshops sieht z.B. so aus:
 
@@ -44,13 +44,14 @@ Terminal öffnen und folgenden Befehl eingeben:
 
 uv run allocator.py
 
-Dadurch werden eine Teilnehmerliste und eine Warteliste im Unterordner "output/" (falls der Pfad im setup file nicht geändert wurde) erzeugt.
+Dadurch werden die Zuordnungsliste (results.csv) und eine Daten mit Statistiken (stats.txt)  im Unterordner "output/" (falls der Pfad im setup file nicht geändert wurde) erzeugt.
 
-Beim ersten Ausführen kann es etwas länger dauern, da die Module geladen werden müssen. Wenn Mac/Linux benutzt wird, kann allocator.py auch ausführbar gemacht werden (chmod +x allocator.py), dann muss man als Befehl nur "./lottery.py" eingeben. 
+Beim ersten Ausführen kann es etwas länger dauern, da die Module geladen werden müssen. Wenn Mac/Linux benutzt wird, kann allocator.py auch ausführbar gemacht werden (chmod +x allocator.py), dann muss man als Befehl nur "./allocator.py" eingeben. 
 
 Bei Bedarf können die Gewichtungen (cost) für die Wahlen in "setup.toml" angepasst werden. Eine höhere Zahl macht das Vorkommen dieser Wahl unwarscheinlicher.
 
 Eine Zuordnung zu keiner der 3 Wahlen ist nicht möglich (Und würde bestimmt Leute unglücklich machen). Falls mit den in den Kapazitätsdateien angebenen Obergrenzen keine Zuordnung möglich ist, berechnet das Programm automatisch, welche Kapazitätserhöhungen bei welchen Workshops/Exkursionen eine Zuordnung möglich machen würden. Dabei ist auch eine Kombination über jeweils mehrere Workshops/Exkursionen möglich.
 
-Aktuell nicht umgesetzt ist eine automatische Beachtung von Mindestteilnehmerzahlen. Es kann also passieren, dass ein Workshop/Exkursion nur wenige Zuordnungen hat. Falls man möchte, dass jedem Workshop/Exkursion mindestens eine bestimmte Anzahl an Teilnehmenden zugeordnet ist, kann man mehrere Dinge versuchen um das gewünschte Ergebnis zu erzielen. Falls es z.B. eine selbstorganisierte Exkursion ist, auf die verzichtet werden kann, kann man sie auch einfach weglassen. Dazu wird die Obergrenze in der Kapazitätsdatei auf 0 gesetzt. Eventuell muss dann die Obergrenze bei anderen Exkursionen erhöht werden, damit es wieder passt. Ist ein Verzicht nicht möglich, z.B. wenn es sich um einen Workshop einer externen Person handelt, sollte zuerst in der Eingangsdatei mit den Präferenzen überpüft werden, ob es noch weitere 2. und 3. Wahlen für diesen Workshop gibt. Gibt es noch weitere Wahlen, kann eine Änderung der Gewichtungen probiert werden. Werden 2. und 3. Wahl weniger stark gewichtet, steigt die Wahrscheinlichkeit, dass mehr Leute den gewünschten Workshop zugeordnet bekommen. Falls das nichts oder nicht genug bringt, kann man explizit in der Ergebnisdatei nachschauen, welche Workshops den Leuten, die den Workshop in ihrerer 2. oder 3. Wahl haben, zugeordnet wurden und dann die Obergrenzen dieser Workshops soweit reduzieren, bis sie dem gewünschten Workshop zugeordnet werden. Eventuell muss dann die Obergrenze bei anderen Workshops (die nicht von den Leuten, die getauscht werden sollen, gewählt wurden) erhöht werden, damit es wieder passt.
+Es kann passieren, dass ein Workshop/Exkursion nur wenige Zuordnungen hat. Falls man möchte, dass jedem Workshop/Exkursion mindestens eine bestimmte Anzahl an Teilnehmenden zugeordnet ist, hilft die Option "lowalloc_threshold" in der Setup-Datei. Gibt es einen Workshop/Exkursion mit weniger Zuordnungen als dieser Wert, gibt das Programm eine Warnung aus und zeigt, zu welchen Workshops/Exkursionen die Leute zugeordnet wurden, die den Workshops/Exkursion auch als eine ihrer Wahlen hatten. Falls der Workshop/Exkursion voll ist (siehe stats.txt), kann durch Reduktion der Obergrenze in der Kapazitätsdatei ein Verschieben der Leute in den gewünschten Workshop/Exkursion erreicht werden. Zudem kann auch eine höhere Gewichtung der 3. Wahlen helfen. Die Warnung wird nicht ausgegeben, wenn die Obergrenze nicht größer als die Option "lowalloc_threshold" ist.
 
+Falls ein Workshop/Exkursion nicht stattfinden soll, kann die Obergrenze in der Kapazitätsdatei auf 0 gesetzt oder die entsprechende Zeile gelöscht werden.
