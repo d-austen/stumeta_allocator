@@ -1,6 +1,6 @@
 # Stumeta Workshop/Exkursion Zuordnung 
 
-Sortiert Teilnehmende der StuMeTa in Workshops und Exkursionen basiert auf ihren Präferenzen ein.
+Sortiert Teilnehmende der StuMeTa in Workshops und Exkursionen basierend auf ihren Präferenzen ein.
 
 Die Sortierung basiert auf dem "Minimum-Cost Flow Problem", das eine optimale Zuordnung berechnet.
 Jeder erfüllten Wahl (1. Wahl, 2. Wahl, etc.) wird am Anfang ein "Kostenfaktor" als Gewichtung gegeben (siehe Anwendung).
