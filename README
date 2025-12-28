@@ -44,14 +44,16 @@ Terminal öffnen und folgenden Befehl eingeben:
 
 uv run allocator.py
 
-Dadurch werden die Zuordnungsliste (results.csv) und eine Daten mit Statistiken (stats.txt)  im Unterordner "output/" (falls der Pfad im setup file nicht geändert wurde) erzeugt.
+Dadurch werden die Zuordnungsliste (results.csv) und eine Datei mit Statistiken (stats.txt)  im Unterordner "output/" (falls der Pfad im setup file nicht geändert wurde) erzeugt.
 
-Beim ersten Ausführen kann es etwas länger dauern, da die Module geladen werden müssen. Wenn Mac/Linux benutzt wird, kann allocator.py auch ausführbar gemacht werden (chmod +x allocator.py), dann muss man als Befehl nur "./allocator.py" eingeben. 
+Beim ersten Ausführen kann es etwas länger dauern, da die Module geladen werden müssen. 
+
+Wenn Mac/Linux benutzt wird, kann allocator.py auch ausführbar gemacht werden (chmod +x allocator.py), dann muss man als Befehl nur "./allocator.py" eingeben. 
 
 Bei Bedarf können die Gewichtungen (cost) für die Wahlen in "setup.toml" angepasst werden. Eine höhere Zahl macht das Vorkommen dieser Wahl unwarscheinlicher.
 
 Eine Zuordnung zu keiner der 3 Wahlen ist nicht möglich (Und würde bestimmt Leute unglücklich machen). Falls mit den in den Kapazitätsdateien angebenen Obergrenzen keine Zuordnung möglich ist, berechnet das Programm automatisch, welche Kapazitätserhöhungen bei welchen Workshops/Exkursionen eine Zuordnung möglich machen würden. Dabei ist auch eine Kombination über jeweils mehrere Workshops/Exkursionen möglich.
 
-Es kann passieren, dass ein Workshop/Exkursion nur wenige Zuordnungen hat. Falls man möchte, dass jedem Workshop/Exkursion mindestens eine bestimmte Anzahl an Teilnehmenden zugeordnet ist, hilft die Option "lowalloc_threshold" in der Setup-Datei. Gibt es einen Workshop/Exkursion mit weniger Zuordnungen als dieser Wert, gibt das Programm eine Warnung aus und zeigt, zu welchen Workshops/Exkursionen die Leute zugeordnet wurden, die den Workshops/Exkursion auch als eine ihrer Wahlen hatten. Falls der Workshop/Exkursion voll ist (siehe stats.txt), kann durch Reduktion der Obergrenze in der Kapazitätsdatei ein Verschieben der Leute in den gewünschten Workshop/Exkursion erreicht werden. Zudem kann auch eine höhere Gewichtung der 3. Wahlen helfen. Die Warnung wird nicht ausgegeben, wenn die Obergrenze nicht größer als die Option "lowalloc_threshold" ist.
+Es kann passieren, dass ein Workshop/Exkursion nur wenige Zuordnungen hat. Falls man möchte, dass jedem Workshop/Exkursion mindestens eine bestimmte Anzahl an Teilnehmenden zugeordnet ist, hilft die Option "lowalloc_threshold" in der Setup-Datei. Gibt es einen Workshop/Exkursion mit weniger Zuordnungen als dieser Wert, gibt das Programm eine Warnung aus und zeigt, zu welchen Workshops/Exkursionen die Leute zugeordnet wurden, die den Workshops/Exkursion auch als eine ihrer Wahlen hatten. Falls der Workshop/Exkursion voll ist (siehe stats.txt), kann durch Reduktion der Obergrenze in der Kapazitätsdatei ein Verschieben der Leute in den gewünschten Workshop/Exkursion erreicht werden. Zudem kann auch eine höhere Gewichtung der 3. Wahl helfen. Die Warnung wird nicht ausgegeben, wenn die Obergrenze nicht größer als die Option "lowalloc_threshold" ist.
 
 Falls ein Workshop/Exkursion nicht stattfinden soll, kann die Obergrenze in der Kapazitätsdatei auf 0 gesetzt oder die entsprechende Zeile gelöscht werden.
